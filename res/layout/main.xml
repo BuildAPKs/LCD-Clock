@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/background"
+    >
+	<TextView
+		android:layout_height="fill_parent"
+		android:layout_width="fill_parent"
+		android:id="@+id/TimeBackView"
+		android:text="88:88"
+		android:textColor="#184988"
+		android:textStyle="bold"
+		android:typeface="sans"
+		android:textSize="200sp"
+		android:gravity="center"
+		android:visibility="invisible"/>
+	<TextView
+		android:layout_height="fill_parent"
+		android:layout_width="fill_parent"
+		android:id="@+id/TimeTextView"
+		android:text="23:59"
+		android:textColor="#000000"
+		android:textStyle="bold"
+		android:typeface="sans"
+		android:textSize="200sp"
+		android:gravity="center"/>
+</AbsoluteLayout>
