@@ -153,5 +153,5 @@ public class LCDClock extends Activity {
     		super.handleMessage(msg);
     	}
 	};
-	
+	//	
 }
