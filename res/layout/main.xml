@@ -11,7 +11,7 @@
 		android:textColor="#184988"
 		android:textStyle="bold"
 		android:typeface="sans"
-		android:textSize="200sp"
+		android:textSize="140sp"
 		android:gravity="center"
 		android:visibility="invisible"/>
 	<TextView
@@ -22,6 +22,6 @@
 		android:textColor="#1D67C5"
 		android:textStyle="bold"
 		android:typeface="sans"
-		android:textSize="200sp"
+		android:textSize="140sp"
 		android:gravity="center"/>
 </AbsoluteLayout>

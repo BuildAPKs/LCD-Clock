@@ -26,31 +26,32 @@ public class LCDClock extends Activity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // android:background="@drawable/background"
+    	// android:background="@drawable/background"
     	// android:textColor="#1D67C5"
     	super.onCreate(savedInstanceState);
+		/*
+        // this can be replaced in manifest by:
+        //	android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+        		WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        */
         setContentView(R.layout.main);
         
         clockText = (TextView)findViewById(R.id.TimeTextView);
         clockBack = (TextView)findViewById(R.id.TimeBackView);
         
-        Typeface tf = Typeface.createFromAsset(getAssets(),"fonts/DS-DIGIT.TTF");
-        clockText.setTypeface(tf);
-        clockBack.setTypeface(tf);
+        handleOrientation(getResources().getConfiguration().orientation);
+		
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/DS-DIGIT.TTF");
+        clockText.setTypeface(typeface);
+        clockBack.setTypeface(typeface);
         
-		/*
-        replaced in manifest by:
-        	android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
-        
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-        		WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        */
-        
+        /*
         // Turn off buttons on Froyo
-        //WindowManager.LayoutParams lp = getWindow().getAttributes();
-        //lp.buttonBrightness = 0;
-        
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.buttonBrightness = 0;
+        */
         pm = (PowerManager) getSystemService(POWER_SERVICE);
         wl = pm.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "My Tag");
         wl.acquire();
@@ -73,11 +74,6 @@ public class LCDClock extends Activity {
 		
 		// ќрганизуем фонарик средней €ркости
 		//setLedState("flashlight", 128);
-        
-        /*
-        lock = new ScreensaverLock(this);
-        lock.acquire();
-        */
         
         mTimer = new Timer("LCDClockTimer");
 		mTimer.scheduleAtFixedRate(new SendMessageTask(), 0, 1000);
@@ -103,21 +99,24 @@ public class LCDClock extends Activity {
     
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) { 
-		if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			clockText.setTextSize(140);
-			clockBack.setTextSize(140);
-		} else {
-			clockText.setTextSize(200);
-			clockBack.setTextSize(200);
-		}
-		//ignore orientation change 
+		handleOrientation(newConfig.orientation);
 		super.onConfigurationChanged(newConfig); 
 	}
 	/*+ manifest:
 	android:screenOrientation="landscape" (portrait, sensor)
 	android:configChanges="orientation|keyboardHidden"
 	*/
-	
+
+    public void handleOrientation(int orientation) {
+		if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+			clockText.setTextSize(140);
+			clockBack.setTextSize(140);
+		} else {
+			clockText.setTextSize(200);
+			clockBack.setTextSize(200);
+		}
+    }
+    
     public void setLedState(String name, int brightness) {
         try {
             FileWriter fw = new FileWriter("/sys/class/leds/" + name + "/brightness");
